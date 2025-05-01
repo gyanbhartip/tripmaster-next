@@ -1,0 +1,33 @@
+services:
+    nextjs:
+        hostname: tripmaster-next
+        build:
+            context: .
+        container_name: nextjs
+        # ports:
+        #     - 3000:3000
+        # command: bun index.ts
+        expose:
+            - '3000'
+        networks:
+            - app-net
+    nginx:
+        hostname: tripmaster-next
+        # image: nginx:stable
+        build:
+            context: ./docker/nginx
+        container_name: nginx
+        ports:
+            - '8080:80'
+        # volumes:
+        #     - ./nginx.conf:/etc/nginx/nginx.conf
+        #     - ./default.conf:/etc/nginx/conf.d/default.conf
+        # - ./build/client:/usr/share/nginx/html:ro # Serve built static files
+        depends_on:
+            - nextjs
+        networks:
+            - app-net
+
+networks:
+    app-net:
+        driver: bridge
