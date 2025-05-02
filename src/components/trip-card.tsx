@@ -5,7 +5,7 @@ import {
     ChipsDirective,
 } from '@syncfusion/ej2-react-buttons';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+// import { usePathname } from 'next/navigation';
 
 const TripCard = ({
     id,
@@ -15,13 +15,13 @@ const TripCard = ({
     price,
     tags,
 }: TripCardProps) => {
-    const pathName = usePathname();
+    // const pathName = usePathname();
     return (
         <Link
             href={
-                pathName === '/' || pathName.startsWith('/travel')
-                    ? `/travel/${id}`
-                    : `/trip/${id}`
+                // pathName === '/' || pathName.startsWith('/travel')
+                //     ? `/travel/${id}`:
+                `/trip/${id}`
             }
             className="trip-card">
             <img src={imageUrl} alt={name} />

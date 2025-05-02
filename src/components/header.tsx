@@ -18,18 +18,18 @@ const Header = ({ ctaText, ctaUrl, title, description }: Props) => {
                 <h1
                     className={cn(
                         'text-dark-100',
-                        location.pathname === '/'
-                            ? 'text-2xl font-bold md:text-4xl'
-                            : 'text-xl font-semibold md:text-2xl',
+                        // location.pathname === '/'
+                        //     ? 'text-2xl font-bold md:text-4xl'
+                        //     : 'text-xl font-semibold md:text-2xl',
                     )}>
                     {title}
                 </h1>
                 <p
                     className={cn(
                         'font-normal text-gray-500',
-                        location.pathname === '/'
-                            ? 'text-base md:text-lg'
-                            : 'text-sm md:text-lg',
+                        // location.pathname === '/'
+                        //     ? 'text-base md:text-lg'
+                        //     : 'text-sm md:text-lg',
                     )}>
                     {description}
                 </p>

@@ -1,9 +1,10 @@
-import { SidebarComponent } from '@syncfusion/ej2-react-navigations';
-// import { Link } from 'react-router';
-import NavItems from './nav-items';
-import Link from 'next/link';
+'use client';
 
-const MobileSidebar = () => {
+import { SidebarComponent } from '@syncfusion/ej2-react-navigations';
+import Link from 'next/link';
+import NavItems from './nav-items';
+
+const MobileSidebar = ({ user }) => {
     let sidebar: SidebarComponent;
 
     const hideSidebar = () => {
@@ -42,7 +43,7 @@ const MobileSidebar = () => {
                 closeOnDocumentClick={true}
                 showBackdrop={true}
                 type={'Over'}>
-                <NavItems handleClick={hideSidebar} />
+                <NavItems handleClick={hideSidebar} user={user} />
             </SidebarComponent>
         </div>
     );

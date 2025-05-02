@@ -1,21 +1,15 @@
-// import { Link, NavLink, useLoaderData, useNavigate } from 'react-router';
-
-import { logoutUser } from '@/lib/appwrite/auth';
-import { sidebarItems } from '@/lib/constants';
+import { logout } from '@/lib/actions/user';
+import { sidebarItems } from '@/lib/constants/app-constants';
+import { cn } from '@/utils/misc';
 import Link from 'next/link';
 
 type Props = {
     handleClick: () => void;
+    user: unknown;
 };
 
-const NavItems = ({ handleClick }: Props) => {
-    // const user = useLoaderData();
-    // const navigate = useNavigate();
-
-    const handleLogout = async () => {
-        await logoutUser();
-        // navigate("/sign-in");
-    };
+const NavItems = ({ handleClick, user }: Props) => {
+    const isActive = false;
     return (
         <section className="nav-items">
             <Link href="/" className="link-logo">
@@ -30,24 +24,22 @@ const NavItems = ({ handleClick }: Props) => {
                 <nav>
                     {sidebarItems.map(({ href, icon, id, label }) => (
                         <Link href={href} key={id}>
-                            {({ isActive }: { isActive: boolean }) => (
-                                <div
-                                    className={cn('group nav-item', {
-                                        'bg-primary-100 !text-white': isActive,
-                                    })}
-                                    onClick={handleClick}>
-                                    <img
-                                        src={icon}
-                                        alt={label}
-                                        className={`size-0 group-hover:brightness-0 group-hover:invert ${
-                                            isActive
-                                                ? 'brightness-0 invert'
-                                                : 'text-dark-200'
-                                        }`}
-                                    />
-                                    {label}
-                                </div>
-                            )}
+                            <div
+                                className={cn('group nav-item', {
+                                    'bg-primary-100 !text-white': isActive,
+                                })}
+                                onClick={handleClick}>
+                                <img
+                                    src={icon}
+                                    alt={label}
+                                    className={`size-0 group-hover:brightness-0 group-hover:invert ${
+                                        isActive
+                                            ? 'brightness-0 invert'
+                                            : 'text-dark-200'
+                                    }`}
+                                />
+                                {label}
+                            </div>
                         </Link>
                     ))}
                 </nav>
@@ -62,7 +54,7 @@ const NavItems = ({ handleClick }: Props) => {
                         <p>{user?.email}</p>
                     </article>
                     <button
-                        onClick={handleLogout}
+                        onClick={logout}
                         className="cursor-pointer"
                         type="button">
                         <img

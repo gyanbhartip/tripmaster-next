@@ -1,6 +1,6 @@
 import { ID, OAuthProvider, Query } from 'appwrite';
+import { redirect } from 'next/navigation';
 import { account, appwriteConfig, database } from './client';
-// import { redirect } from 'react-router';
 
 const { databaseId, userCollectionId } = appwriteConfig;
 
@@ -18,7 +18,7 @@ export const loginWithGoogle = async () => {
 
 export const logoutUser = async () => {
     try {
-        await account.deleteSession('current');
+        await account?.deleteSession('current');
     } catch (error) {
         console.error('Error during logout: ', error);
     }
@@ -28,7 +28,7 @@ export const getUser = async () => {
     try {
         const user = await account.get();
         if (!user) {
-            // return redirect('/sign-in');
+            return redirect('/sign-in');
         }
 
         const { documents } = await database.listDocuments(
@@ -46,7 +46,7 @@ export const getUser = async () => {
             ],
         );
 
-        // return documents.length > 0 ? documents[0] : redirect('/sign-in');
+        return documents.length > 0 ? documents[0] : redirect('/sign-in');
     } catch (error) {
         console.error('Error fetching user: ', error);
         return null;
@@ -96,7 +96,7 @@ export const storeUserData = async () => {
         );
 
         if (!createdUser.$id) {
-            // redirect('/sign-in');
+            redirect('/sign-in');
         }
     } catch (error) {
         console.error('Error storing user data: ', error);
@@ -118,7 +118,7 @@ export const getExistingUser = async (id: string) => {
 
 export const getAllUsers = async (limit: number, offset: number) => {
     try {
-        const { documents: users, total } = await database?.listDocuments(
+        const { documents: users, total } = await database.listDocuments(
             databaseId,
             userCollectionId,
             [Query.limit(limit), Query.offset(offset)],
