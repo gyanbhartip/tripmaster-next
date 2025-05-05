@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Figtree, Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
 import './globals.css';
+import { registerLicense } from '@syncfusion/ej2-base';
 
 const figtreeSans = Figtree({
     variable: '--font-figtree-sans',
@@ -17,6 +18,8 @@ export const metadata: Metadata = {
     title: 'Trip Master Next - AI Powered Trip Planning',
     description: 'An AI powered trip planning application.',
 };
+
+registerLicense(process.env.NEXT_SYNCFUSION_LICENSE_KEY);
 
 export default function RootLayout({
     children,

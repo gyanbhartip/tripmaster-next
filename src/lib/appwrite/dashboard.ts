@@ -1,5 +1,5 @@
 import { parseTripData } from '@/utils/trip';
-import { appwriteConfig, database } from './client';
+import { appwriteConfig, createAdminClient } from './client';
 
 type Document = {
     [key: string]: unknown;
@@ -25,13 +25,14 @@ export const getUserAndTripStats = async (): Promise<DashboardStats> => {
         1,
     ).toISOString();
     const endPrev = new Date(d.getFullYear(), d.getMonth(), 0).toISOString();
+    const { databases } = await createAdminClient();
 
     const [trips, users] = await Promise.all([
-        database?.listDocuments(
+        databases?.listDocuments(
             appwriteConfig.databaseId,
             appwriteConfig.tripCollectionId,
         ),
-        database?.listDocuments(
+        databases?.listDocuments(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
         ),
@@ -94,7 +95,8 @@ export const getUserAndTripStats = async (): Promise<DashboardStats> => {
 };
 
 export const getUserGrowthPerDay = async () => {
-    const users = await database?.listDocuments(
+    const { databases } = await createAdminClient();
+    const users = await databases?.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.userCollectionId,
     );
@@ -119,7 +121,8 @@ export const getUserGrowthPerDay = async () => {
 };
 
 export const getTripsCreatedPerDay = async () => {
-    const trips = await database?.listDocuments(
+    const { databases } = await createAdminClient();
+    const trips = await databases?.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.tripCollectionId,
     );
@@ -144,7 +147,8 @@ export const getTripsCreatedPerDay = async () => {
 };
 
 export const getTripsByTravelStyle = async () => {
-    const trips = await database?.listDocuments(
+    const { databases } = await createAdminClient();
+    const trips = await databases?.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.tripCollectionId,
     );

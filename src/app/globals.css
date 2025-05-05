@@ -94,7 +94,7 @@
     }
 
     .sign-in-card {
-        @apply border-light-100 flex w-full flex-col rounded-[20px] border bg-white px-6 py-10 md:max-w-[510px];
+        @apply border-light-100 flex w-full flex-col items-center rounded-[20px] border bg-white px-6 py-10 md:max-w-[510px];
         header {
             @apply flex items-center justify-center gap-1.5;
         }
@@ -365,7 +365,7 @@
     }
 
     .admin-layout {
-        @apply flex h-screen w-full flex-col lg:flex-row;
+        @apply flex h-full w-full flex-col lg:flex-row;
         .children {
             @apply bg-light-200 h-full w-full pt-12 lg:pt-10;
         }

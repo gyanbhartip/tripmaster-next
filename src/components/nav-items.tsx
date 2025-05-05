@@ -1,4 +1,4 @@
-import { logout } from '@/lib/actions/user';
+import { logoutAction } from '@/lib/actions/user';
 import { sidebarItems } from '@/lib/constants/app-constants';
 import { cn } from '@/utils/misc';
 import Link from 'next/link';
@@ -54,7 +54,7 @@ const NavItems = ({ handleClick, user }: Props) => {
                         <p>{user?.email}</p>
                     </article>
                     <button
-                        onClick={logout}
+                        onClick={logoutAction}
                         className="cursor-pointer"
                         type="button">
                         <img

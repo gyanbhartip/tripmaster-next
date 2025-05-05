@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import Header from './header';
 import TripCard from './trip-card';
@@ -20,6 +20,8 @@ const TripsList = ({ total, trips }: Props) => {
         setCurrentPage(page);
         window.location.search = `?page=${page}`;
     };
+
+    const pathName = usePathname();
     return (
         <main className="all-users wrapper">
             <Header
@@ -27,6 +29,7 @@ const TripsList = ({ total, trips }: Props) => {
                 ctaUrl="/trips/create"
                 description="View and edit AI-generated travel plans"
                 title="Trips"
+                pathName={pathName}
             />
             <section>
                 <h1 className="p-24-semibold text-dark-100 mb-4">

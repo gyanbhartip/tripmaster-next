@@ -1,31 +1,39 @@
-import { Query } from 'appwrite';
-import { appwriteConfig, database } from './client';
+import { Query } from 'node-appwrite';
+import { appwriteConfig, createAdminClient } from './client';
 
 export const getAllTrips = async (limit: number, offset: number) => {
-    const allTrips = await database.listDocuments(
-        appwriteConfig.databaseId,
-        appwriteConfig.tripCollectionId,
-        [
-            Query.limit(limit),
-            Query.offset(offset),
-            Query.orderDesc('createdAt'),
-        ],
-    );
-    if (allTrips.total === 0) {
-        console.error('No trips found');
+    console.log('🚀 ~ getAllTrips ~ offset:', offset);
+    console.log('🚀 ~ getAllTrips ~ limit:', limit);
+    try {
+        const { databases } = await createAdminClient();
+        const allTrips = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.tripCollectionId,
+            [
+                Query.limit(limit),
+                Query.offset(offset),
+                Query.orderDesc('createdAt'),
+            ],
+        );
+        if (allTrips.total === 0) {
+            console.error('No trips found');
+            return {
+                allTrips: [],
+                total: 0,
+            };
+        }
         return {
-            allTrips: [],
-            total: 0,
+            allTrips: allTrips.documents,
+            total: allTrips.total,
         };
+    } catch (error) {
+        console.error('error in getAllTrips: ', error);
     }
-    return {
-        allTrips: allTrips.documents,
-        total: allTrips.total,
-    };
 };
 
 export const getTripById = async (tripId: string) => {
-    const trip = await database.getDocument(
+    const { databases } = await createAdminClient();
+    const trip = await databases.getDocument(
         appwriteConfig.databaseId,
         appwriteConfig.tripCollectionId,
         tripId,

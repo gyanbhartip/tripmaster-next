@@ -1,3 +1,5 @@
+'use client';
+
 import { cn, getFirstWord } from '@/utils/misc';
 import {
     ChipDirective,
