@@ -13,7 +13,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
     ...compat.config({
-        extends: ['eslint:recommended', 'next', 'prettier'],
+        extends: ['eslint:recommended', 'next/typescript', 'prettier'],
     }),
 ];
 

@@ -20,11 +20,11 @@
         "@syncfusion/ej2-react-maps": "^29.1.34",
         "@syncfusion/ej2-react-navigations": "^29.1.40",
         "@syncfusion/ej2-react-splitbuttons": "^29.1.33",
+        "appwrite": "^17.0.2",
         "babel-plugin-react-compiler": "^19.1.0-rc.1",
         "clsx": "^2.1.1",
         "dayjs": "^1.11.13",
-        "next": "15.3.1",
-        "node-appwrite": "^16.0.0",
+        "next": "^15.3.2",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
         "tailwind-merge": "^3.2.0"
@@ -37,12 +37,12 @@
         "@types/react": "^19",
         "@types/react-dom": "^19",
         "eslint": "^9.26.0",
-        "eslint-config-next": "15.3.1",
+        "eslint-config-next": "15.3.2",
         "eslint-config-prettier": "^10.1.2",
         "prettier": "^3.5.3",
         "prettier-plugin-tailwindcss": "^0.6.11",
         "tailwindcss": "^4",
         "typescript": "^5.8.3",
-        "typescript-eslint": "^8.31.1"
+        "typescript-eslint": "^8.32.0"
     }
 }
