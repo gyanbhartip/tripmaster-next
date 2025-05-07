@@ -2,8 +2,6 @@ import { Query } from 'node-appwrite';
 import { appwriteConfig, createAdminClient } from './client';
 
 export const getAllTrips = async (limit: number, offset: number) => {
-    console.log('🚀 ~ getAllTrips ~ offset:', offset);
-    console.log('🚀 ~ getAllTrips ~ limit:', limit);
     try {
         const { databases } = await createAdminClient();
         const allTrips = await databases.listDocuments(

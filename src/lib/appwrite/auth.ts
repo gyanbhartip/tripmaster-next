@@ -7,7 +7,8 @@ import {
     appwriteConfig,
     createSessionClient,
 } from './client';
-import { OAuthProvider, Query } from 'node-appwrite';
+import { ID, OAuthProvider, Query } from 'node-appwrite';
+import { redirect } from 'next/navigation';
 
 const { databaseId, userCollectionId } = appwriteConfig;
 
@@ -60,68 +61,72 @@ const { databaseId, userCollectionId } = appwriteConfig;
 //     }
 // };
 
-// export const getGooglePicture = async (accessToken: string) => {
-//     try {
-//         const response = await fetch(
-//             'https://people.googleapis.com/v1/people/me?personFields=photos',
-//             { headers: { Authorization: `Bearer ${accessToken}` } },
-//         );
-//         if (!response.ok) {
-//             throw new Error('Failed to fetch Google profile picture');
-//         }
+export const getGooglePicture = async (accessToken: string) => {
+    try {
+        const response = await fetch(
+            'https://people.googleapis.com/v1/people/me?personFields=photos',
+            { headers: { Authorization: `Bearer ${accessToken}` } },
+        );
+        if (!response.ok) {
+            throw new Error('Failed to fetch Google profile picture');
+        }
 
-//         const { photos } = await response.json();
-//         return photos?.[0]?.url || null;
-//     } catch (error) {
-//         console.error('Error fetching Google picture: ', error);
-//         return null;
-//     }
-// };
+        const { photos } = await response.json();
+        return (photos?.[0]?.url as string) || null;
+    } catch (error) {
+        console.error('Error fetching Google picture: ', error);
+        return null;
+    }
+};
 
-// export const storeUserData = async () => {
-//     try {
-//         const user = await account.get();
-//         if (!user) throw new Error('User not found');
+export const storeUserData = async () => {
+    try {
+        const { account, databases } = await createAdminClient();
+        const user = await account.get();
+        if (!user) throw new Error('User not found');
 
-//         const { providerAccessToken } =
-//             (await account.getSession('current')) || {};
-//         const profilePicture = providerAccessToken
-//             ? await getGooglePicture(providerAccessToken)
-//             : null;
+        const { providerAccessToken } =
+            (await account.getSession('current')) || {};
+        const profilePicture = providerAccessToken
+            ? await getGooglePicture(providerAccessToken)
+            : null;
 
-//         const createdUser = await database?.createDocument(
-//             databaseId,
-//             userCollectionId,
-//             ID.unique(),
-//             {
-//                 accountId: user.$id,
-//                 email: user.email,
-//                 name: user.name,
-//                 imageUrl: profilePicture,
-//                 joinedAt: new Date().toISOString(),
-//             },
-//         );
+        const createdUser = await databases?.createDocument(
+            databaseId,
+            userCollectionId,
+            ID.unique(),
+            {
+                accountId: user.$id,
+                email: user.email,
+                name: user.name,
+                imageUrl: profilePicture,
+                joinedAt: new Date().toISOString(),
+            },
+        );
 
-//         if (!createdUser.$id) {
-//             redirect('/sign-in');
-//         }
-//     } catch (error) {
-//         console.error('Error storing user data: ', error);
-//     }
-// };
+        if (!createdUser.$id) {
+            redirect('/sign-in');
+        }
+        return createdUser;
+    } catch (error) {
+        console.error('Error storing user data: ', error);
+        return null;
+    }
+};
 
-// export const getExistingUser = async (id: string) => {
-//     try {
-//         const { documents, total } = await database.listDocuments(
-//             databaseId,
-//             userCollectionId,
-//             [Query.equal('accountId', id)],
-//         );
-//         return total > 0 ? documents[0] : null;
-//     } catch (error) {
-//         console.error('Error fetching user: ', error);
-//     }
-// };
+export const getExistingUser = async (id: string) => {
+    try {
+        const { databases } = await createAdminClient();
+        const { documents, total } = await databases.listDocuments(
+            databaseId,
+            userCollectionId,
+            [Query.equal('accountId', id)],
+        );
+        return total > 0 ? documents[0] : null;
+    } catch (error) {
+        console.error('Error fetching user: ', error);
+    }
+};
 
 export const getAllUsers = async (limit: number, offset: number) => {
     const { databases } = await createAdminClient();
@@ -154,7 +159,11 @@ type Auth = {
         Awaited<ReturnType<typeof cookies>>['get']
     > | null;
     getUser: () => Promise<Auth['user']>;
-    createSession: (email: string, password: string) => Promise<void>;
+    createEmailPassSession: (email: string, password: string) => Promise<void>;
+    createUserIdSecretSession: (
+        userId: string,
+        session: string,
+    ) => Promise<void>;
     googleLogin: () => Promise<void>;
     deleteSession: () => Promise<void>;
 };
@@ -181,7 +190,7 @@ const auth: Auth = {
         }
         return auth.user;
     },
-    createSession: async (email, password) => {
+    createEmailPassSession: async (email, password) => {
         const { account } = await createAdminClient();
 
         const session = await account.createEmailPasswordSession(
@@ -197,19 +206,33 @@ const auth: Auth = {
             path: '/',
         });
     },
+    createUserIdSecretSession: async (userId: string, secret: string) => {
+        const { account } = await createAdminClient();
+        const session = await account.createSession(userId, secret);
+
+        (await cookies()).set('session', session.secret, {
+            httpOnly: true,
+            sameSite: 'strict',
+            secure: true,
+            expires: new Date(session.expire),
+            path: '/',
+        });
+    },
     googleLogin: async () => {
         const { account } = await createAdminClient();
 
-        account.createOAuth2Token(OAuthProvider.Google).then(res => {
-            console.log('🚀 ~ googleLogin: ~ res:', res);
-            return;
-        });
+        const res = await account.createOAuth2Token(
+            OAuthProvider.Google,
+            'http://localhost:3000/oauth/success',
+            'http://localhost:3000/oauth/failure',
+        );
+        console.log('🚀 ~ googleLogin: ~ res:', res);
     },
     deleteSession: async () => {
         auth.sessionCookie = (await cookies()).get('session');
-        if (!auth.sessionCookie?.value) {
-            throw new Error('No existing session');
-        }
+        // if (!auth.sessionCookie?.value) {
+        //     throw new Error('No existing session');
+        // }
         try {
             const { account } = await createSessionClient(
                 auth.sessionCookie?.value,

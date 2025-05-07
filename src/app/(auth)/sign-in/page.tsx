@@ -1,6 +1,6 @@
 'use client';
 
-import { loginAction } from '@/lib/actions/user';
+import { googleLoginAction } from '@/lib/actions/user';
 import { ButtonComponent } from '@syncfusion/ej2-react-buttons';
 import Link from 'next/link';
 
@@ -29,7 +29,7 @@ const SignInPage = () => {
                         </p>
                     </article>
 
-                    <form action={loginAction} className="flex flex-col">
+                    <form action={googleLoginAction} className="flex flex-col">
                         {/* <div className="text-dark-100 mb-3">
                             <label htmlFor="email">Email</label>
                             <input

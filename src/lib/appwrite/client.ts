@@ -15,7 +15,8 @@ const createAdminClient = async () => {
 
         .setEndpoint(appwriteConfig.endpointUrl)
         .setProject(appwriteConfig.projectId)
-        .setKey(appwriteConfig.apiKey);
+        .setKey(appwriteConfig.apiKey)
+        .setSelfSigned(true);
 
     return {
         get account() {
