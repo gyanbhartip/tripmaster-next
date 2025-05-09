@@ -1,7 +1,4 @@
-'use client';
-
-import { loginAction } from '@/lib/actions/user';
-import { ButtonComponent } from '@syncfusion/ej2-react-buttons';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 const SignInPage = () => {
@@ -29,7 +26,7 @@ const SignInPage = () => {
                         </p>
                     </article>
 
-                    <form action={loginAction} className="flex flex-col">
+                    <form className="flex flex-col">
                         {/* <div className="text-dark-100 mb-3">
                             <label htmlFor="email">Email</label>
                             <input
@@ -46,9 +43,8 @@ const SignInPage = () => {
                                 className="form-input mb-2 w-full"
                             />
                         </div> */}
-                        <ButtonComponent
-                            type="submit"
-                            iconCss="e-search-icon"
+                        <Button
+                            type="button"
                             className="button-class !h-11 !w-full">
                             <img
                                 src="/assets/icons/google.svg"
@@ -58,7 +54,7 @@ const SignInPage = () => {
                             <span className="p-18-semibold text-white">
                                 Sign in with Google
                             </span>
-                        </ButtonComponent>
+                        </Button>
                     </form>
                 </div>
             </section>

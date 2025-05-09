@@ -1,15 +1,4 @@
-import DashboardCharts from '@/components/dashboard-charts';
 import Header from '@/components/header';
-import StatsCard from '@/components/stats-card';
-import TripCard from '@/components/trip-card';
-import { getAllUsers } from '@/lib/appwrite/auth';
-import {
-    getTripsByTravelStyle,
-    getUserAndTripStats,
-    getUserGrowthPerDay,
-} from '@/lib/appwrite/dashboard';
-import { getAllTrips } from '@/lib/appwrite/trips';
-import { parseTripData } from '@/utils/trip';
 import { headers } from 'next/headers';
 
 const DashboardPage = async () => {
@@ -19,61 +8,61 @@ const DashboardPage = async () => {
         name: 'Dave Bautista',
         email: 'mail@cena.com',
     };
-    const [
-        // user,
-        dashboardStats,
-        trips,
-        userGrowth,
-        tripsByTravelStyle,
-        allUsers,
-    ] = await Promise.all([
-        // auth.getUser(),
-        getUserAndTripStats(),
-        getAllTrips(4, 0),
-        getUserGrowthPerDay(),
-        getTripsByTravelStyle(),
-        getAllUsers(4, 0),
-    ]);
-    const allTrips = trips?.allTrips.map(({ $id, tripDetail, imageUrls }) => ({
-        id: $id,
-        imageUrls: imageUrls || [],
-        ...parseTripData(tripDetail),
-    }));
+    // const [
+    //     // user,
+    //     dashboardStats,
+    //     trips,
+    //     userGrowth,
+    //     tripsByTravelStyle,
+    //     // allUsers,
+    // ] = await Promise.all([
+    //     // auth.getUser(),
+    //     getUserAndTripStats(),
+    //     getAllTrips(4, 0),
+    //     getUserGrowthPerDay(),
+    //     getTripsByTravelStyle(),
+    //     // getAllUsers(4, 0),
+    // ]);
+    // const allTrips = trips?.allTrips.map(({ $id, tripDetail, imageUrls }) => ({
+    //     id: $id,
+    //     imageUrls: imageUrls || [],
+    //     ...parseTripData(tripDetail),
+    // }));
 
-    const mappedUsers: Array<UsersItineraryCount> = allUsers.users.map(
-        ({ imageUrl, name, itineraryCount }) => ({
-            imageUrl,
-            name,
-            count: itineraryCount ?? Math.floor(Math.random() * 10),
-        }),
-    );
-    const _trips = allTrips?.map(({ imageUrls, name, interests }) => ({
-        imageUrl: imageUrls[0],
-        name,
-        interests,
-    }));
+    // const mappedUsers: Array<UsersItineraryCount> = allUsers.users.map(
+    //     ({ imageUrl, name, itineraryCount }) => ({
+    //         imageUrl,
+    //         name,
+    //         count: itineraryCount ?? Math.floor(Math.random() * 10),
+    //     }),
+    // );
+    // const _trips = allTrips?.map(({ imageUrls, name, interests }) => ({
+    //     imageUrl: imageUrls[0],
+    //     name,
+    //     interests,
+    // }));
 
-    const usersAndTrips = [
-        {
-            title: 'Latest user signups',
-            dataSource: mappedUsers,
-            field: 'count',
-            headerText: 'Trips Created',
-        },
-        {
-            title: 'Trips based on interests',
-            dataSource: _trips,
-            field: 'interests',
-            headerText: 'Interests',
-        },
-    ];
+    // const usersAndTrips = [
+    //     {
+    //         title: 'Latest user signups',
+    //         // dataSource: mappedUsers,
+    //         field: 'count',
+    //         headerText: 'Trips Created',
+    //     },
+    //     {
+    //         title: 'Trips based on interests',
+    //         // dataSource: _trips,
+    //         field: 'interests',
+    //         headerText: 'Interests',
+    //     },
+    // ];
 
     const headersList = await headers();
     const rawUrl = headersList.get('x-next-url') || '/';
     const pathname = new URL(rawUrl, 'http://localhost').pathname;
 
-    const { totalTrips, tripsCreated, totalUsers, userRole, usersJoined } =
-        dashboardStats;
+    // const { totalTrips, tripsCreated, totalUsers, userRole, usersJoined } =
+    //     dashboardStats;
     return (
         <main className="dashboard wrapper">
             <Header
@@ -83,7 +72,7 @@ const DashboardPage = async () => {
             />
             <section className="flex flex-col gap-6">
                 <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">
-                    <StatsCard
+                    {/* <StatsCard
                         headerTitle="Total Users"
                         total={totalUsers}
                         currentMonthCount={usersJoined.currentMonth}
@@ -100,7 +89,7 @@ const DashboardPage = async () => {
                         total={userRole.total}
                         currentMonthCount={userRole.currentMonth}
                         lastMonthCount={userRole.lastMonth}
-                    />
+                    /> */}
                 </div>
             </section>
             <section className="container">
@@ -108,7 +97,7 @@ const DashboardPage = async () => {
                     Created Trips
                 </h1>
                 <div className="trip-grid">
-                    {allTrips?.map(
+                    {/* {allTrips?.map(
                         ({
                             id,
                             name,
@@ -128,14 +117,14 @@ const DashboardPage = async () => {
                                 price={estimatedPrice ?? ''}
                             />
                         ),
-                    )}
+                    )} */}
                 </div>
             </section>
-            <DashboardCharts
+            {/* <DashboardCharts
                 tripsByTravelStyle={tripsByTravelStyle}
                 userGrowth={userGrowth}
                 usersAndTrips={usersAndTrips}
-            />
+            /> */}
         </main>
     );
 };

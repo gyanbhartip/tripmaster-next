@@ -1,8 +1,9 @@
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { registerLicense } from '@syncfusion/ej2-base';
 import type { Metadata } from 'next';
 import { Figtree, Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
 import './globals.css';
-import { registerLicense } from '@syncfusion/ej2-base';
 
 const figtreeSans = Figtree({
     variable: '--font-figtree-sans',
@@ -30,7 +31,7 @@ export default function RootLayout({
         <html lang="en">
             <body
                 className={`${figtreeSans.variable} ${interSans.variable} antialiased`}>
-                {children}
+                <SidebarProvider>{children}</SidebarProvider>
             </body>
         </html>
     );

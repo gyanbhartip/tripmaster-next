@@ -15,7 +15,6 @@ const nextConfig: NextConfig = {
     },
     productionBrowserSourceMaps: true,
     serverExternalPackages: [
-        '@syncfusion/ej2-react-buttons',
         '@syncfusion/ej2-react-charts',
         '@syncfusion/ej2-react-grids',
         '@syncfusion/ej2-react-navigations',

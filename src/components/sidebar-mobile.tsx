@@ -1,20 +1,17 @@
 'use client';
 
-import { SidebarComponent } from '@syncfusion/ej2-react-navigations';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import Link from 'next/link';
 import NavItems from './nav-items';
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetTitle,
+    SheetTrigger,
+} from './ui/sheet';
 
 const MobileSidebar = ({ user }) => {
-    let sidebar: SidebarComponent;
-
-    const hideSidebar = () => {
-        sidebar?.hide();
-    };
-
-    const toggleSidebar = () => {
-        sidebar?.toggle();
-    };
-
     return (
         <div className="mobile-sidebar wrapper">
             <header>
@@ -26,25 +23,31 @@ const MobileSidebar = ({ user }) => {
                     />
                     <h1>Trip Master</h1>
                 </Link>
-                <button onClick={toggleSidebar} type="button">
-                    <img
-                        src="/assets/icons/menu.svg"
-                        alt="menu"
-                        className="size-7"
-                    />
-                </button>
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <img
+                            src="/assets/icons/menu.svg"
+                            alt="menu"
+                            className="size-7"
+                        />
+                    </SheetTrigger>
+                    <SheetContent side="left">
+                        <SheetTitle>
+                            <VisuallyHidden>
+                                mobile navigation drawer
+                            </VisuallyHidden>
+                        </SheetTitle>
+                        <SheetDescription>
+                            <VisuallyHidden>
+                                This is the mobile navigation drawer containing
+                                the navigation links, user information and
+                                logout button.
+                            </VisuallyHidden>
+                        </SheetDescription>
+                        <NavItems user={user} withSheetClose={true} />
+                    </SheetContent>
+                </Sheet>
             </header>
-            <SidebarComponent
-                width={270}
-                ref={(_sidebar: SidebarComponent) => {
-                    sidebar = _sidebar;
-                }}
-                created={hideSidebar}
-                closeOnDocumentClick={true}
-                showBackdrop={true}
-                type={'Over'}>
-                <NavItems handleClick={hideSidebar} user={user} />
-            </SidebarComponent>
         </div>
     );
 };

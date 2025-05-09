@@ -1,6 +1,6 @@
 import { cn } from '@/utils/misc';
-import { ButtonComponent } from '@syncfusion/ej2-react-buttons';
 import Link from 'next/link';
+import { Button } from './ui/button';
 
 type Props = {
     ctaText?: string;
@@ -35,7 +35,7 @@ const Header = ({ ctaText, ctaUrl, title, description, pathName }: Props) => {
             </article>
             {ctaText && ctaUrl ? (
                 <Link href={ctaUrl}>
-                    <ButtonComponent
+                    <Button
                         type="button"
                         className="button-class !h-11 !w-full md:w-[240px]">
                         <img
@@ -46,7 +46,7 @@ const Header = ({ ctaText, ctaUrl, title, description, pathName }: Props) => {
                         <span className="p-16-semibold text-white">
                             {ctaText}
                         </span>
-                    </ButtonComponent>
+                    </Button>
                 </Link>
             ) : null}
         </header>
