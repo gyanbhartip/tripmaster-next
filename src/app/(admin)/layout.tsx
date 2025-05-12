@@ -1,14 +1,10 @@
 import DesktopSidebar from '@/components/sidebar-desktop';
 import MobileSidebar from '@/components/sidebar-mobile';
-// import { getCurrentUser } from '@/lib/actions/user';
+import { getCurrentUser } from '@/lib/actions/user';
 import type { ReactNode } from 'react';
 
 const Layout = async ({ children }: { children: ReactNode }) => {
-    // const user = await getCurrentUser();
-    const user = {
-        name: 'Dave Bautista',
-        email: 'mail@cena.com',
-    };
+    const user = await getCurrentUser();
     return (
         <div className="admin-layout">
             <MobileSidebar user={user} />

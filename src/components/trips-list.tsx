@@ -65,7 +65,7 @@ const TripsList = ({ total, trips }: Props) => {
                     pageSize={8}
                     currentPage={currentPage}
                     click={args => handlePageChange(args.currentPage)}
-                    cssClass="!mb-4"
+                    cssClass="mb-4!"
                 />
             </section>
         </main>

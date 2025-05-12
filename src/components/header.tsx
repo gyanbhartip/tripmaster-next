@@ -37,7 +37,7 @@ const Header = ({ ctaText, ctaUrl, title, description, pathName }: Props) => {
                 <Link href={ctaUrl}>
                     <Button
                         type="button"
-                        className="button-class !h-11 !w-full md:w-[240px]">
+                        className="button-class h-11! w-full! md:w-[240px]">
                         <img
                             src="/assets/icons/plus.svg"
                             alt="plus"

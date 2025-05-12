@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Home() {
     return (
-        <div className="grid min-h-screen justify-items-center font-[family-name:var(--font-figtree-sans)]">
+        <div className="grid min-h-screen justify-items-center font-(family-name:--font-figtree-sans)">
             <main className="flex items-center gap-8">
                 <LogoutButton />
                 <Link

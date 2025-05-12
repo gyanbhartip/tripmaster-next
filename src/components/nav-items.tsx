@@ -1,6 +1,6 @@
 'use client';
 
-import { logoutAction } from '@/lib/actions/user';
+import { signOut } from '@/lib/appwrite/auth';
 import { sidebarItems } from '@/lib/constants/app-constants';
 import { cn } from '@/utils/misc';
 import Link from 'next/link';
@@ -47,7 +47,7 @@ const NavItems = ({ user, withSheetClose }: Props) => {
                                     <Link
                                         href={href}
                                         className={cn('group nav-item', {
-                                            'bg-primary-100 !text-white':
+                                            'bg-primary-100 text-white!':
                                                 isActive,
                                         })}>
                                         <img
@@ -81,7 +81,7 @@ const NavItems = ({ user, withSheetClose }: Props) => {
                         </article>
                     </div>
                     <button
-                        onClick={logoutAction}
+                        onClick={signOut}
                         className="cursor-pointer"
                         type="button">
                         <img

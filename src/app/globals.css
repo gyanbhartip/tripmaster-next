@@ -1,6 +1,5 @@
 @import '../../node_modules/@syncfusion/ej2-base/styles/material.css';
 @import '../../node_modules/@syncfusion/ej2-react-grids/styles/material.css';
-@import '../../node_modules/@syncfusion/ej2-react-navigations/styles/material.css';
 @import '../../node_modules/@syncfusion/ej2-react-splitbuttons/styles/material.css';
 @import '../../node_modules/@syncfusion/ej2-react-dropdowns/styles/material.css';
 @import 'tailwindcss';
@@ -124,7 +123,7 @@
     }
 
     .sign-in-card {
-        @apply border-light-100 flex w-full flex-col items-center rounded-[20px] border bg-white px-6 py-10 md:max-w-[510px];
+        @apply border-light-100 rounded-20 flex w-full flex-col items-center border bg-white px-6 py-10 md:max-w-[510px];
         header {
             @apply flex items-center justify-center gap-1.5;
         }
@@ -248,7 +247,7 @@
                 ul {
                     @apply flex flex-col gap-3;
                     li {
-                        @apply text-dark-400 flex !list-disc justify-between gap-7 text-sm font-normal md:text-lg;
+                        @apply text-dark-400 flex list-disc! justify-between gap-7 text-sm font-normal md:text-lg;
                     }
                 }
             }
@@ -268,7 +267,7 @@
                     @apply flex flex-col gap-7 sm:gap-3;
 
                     li {
-                        @apply text-dark-400 flex !list-disc flex-row justify-between gap-3 text-sm font-normal max-sm:flex-col sm:gap-7 md:text-lg;
+                        @apply text-dark-400 flex list-disc! flex-row justify-between gap-3 text-sm font-normal max-sm:flex-col sm:gap-7 md:text-lg;
 
                         span {
                             @apply w-[90px];
@@ -298,7 +297,7 @@
         }
     }
     .trip-card {
-        @apply shadow-300 relative w-full flex-col rounded-[20px] bg-white;
+        @apply shadow-300 rounded-20 relative w-full flex-col bg-white;
         img {
             @apply aspect-video h-[160px] w-full rounded-t-xl object-cover;
         }
@@ -477,10 +476,10 @@
         @apply text-sm font-semibold md:text-base;
     }
     .button-class {
-        @apply !bg-primary-100 !flex !items-center !justify-center !gap-1.5 !rounded-lg !px-4 !shadow-none;
+        @apply bg-primary-100! flex! items-center! justify-center! gap-1.5! rounded-lg! px-4! shadow-none!;
     }
     .button-class-secondary {
-        @apply !flex !items-center !justify-center !gap-1.5 !rounded-lg !bg-white !px-4 !shadow-sm;
+        @apply flex! items-center! justify-center! gap-1.5! rounded-lg! bg-white! px-4! shadow-sm!;
     }
     .form-label {
         @apply text-sm font-normal text-gray-100;
@@ -492,10 +491,10 @@
         @apply shadow-200 absolute top-24 z-10 h-[250px] w-full overflow-hidden rounded-xl border border-gray-200 bg-white md:max-w-[660px];
     }
     .tripCard-pill {
-        @apply text-dark-100 absolute top-2.5 right-4 w-fit rounded-[20px] bg-white px-2.5 py-1 text-sm font-semibold;
+        @apply text-dark-100 rounded-20 absolute top-2.5 right-4 w-fit bg-white px-2.5 py-1 text-sm font-semibold;
     }
     .price-pill {
-        @apply text-dark-100 top-2.5 right-4 w-fit rounded-[20px] bg-white px-2.5 py-0.5 text-sm font-semibold;
+        @apply text-dark-100 rounded-20 top-2.5 right-4 w-fit bg-white px-2.5 py-0.5 text-sm font-semibold;
     }
     .trip-grid {
         @apply grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-4;
@@ -504,7 +503,7 @@
         @apply text-dark-200 hover:bg-primary-100 flex cursor-pointer items-center gap-2.5 rounded-lg px-3.5 py-[18px] text-xs font-normal hover:text-white md:text-lg;
     }
     .combo-box {
-        @apply !border-light-400 !text-dark-300 w-full !rounded-xl !border !p-3.5 !text-base !font-normal;
+        @apply border-light-400! text-dark-300! w-full rounded-xl! border! p-3.5! text-base! font-normal!;
     }
 }
 

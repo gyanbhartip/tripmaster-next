@@ -38,8 +38,8 @@ const TripCard = ({
                         key={tag}
                         className={cn(
                             index === 1
-                                ? '!bg-pink-50 !text-pink-500'
-                                : '!bg-success-50 !text-success-700',
+                                ? 'bg-pink-50! text-pink-500!'
+                                : 'bg-success-50! text-success-700!',
                         )}>
                         {getFirstWord(tag)}
                     </Badge>

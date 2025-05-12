@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { signInWithGoogle } from '@/lib/appwrite/auth';
 import Link from 'next/link';
 
 const SignInPage = () => {
@@ -20,13 +21,13 @@ const SignInPage = () => {
                         <h2 className="p-28-semibold text-dark-100 text-center">
                             Start Your Travel Journey
                         </h2>
-                        <p className="p-18-regular text-center !leading-7 text-gray-100">
+                        <p className="p-18-regular text-center leading-7! text-gray-100">
                             Sign in with Google to manage destinations,
                             itineraries, and user activity with ease.
                         </p>
                     </article>
 
-                    <form className="flex flex-col">
+                    <form className="flex flex-col" action={signInWithGoogle}>
                         {/* <div className="text-dark-100 mb-3">
                             <label htmlFor="email">Email</label>
                             <input
@@ -44,8 +45,8 @@ const SignInPage = () => {
                             />
                         </div> */}
                         <Button
-                            type="button"
-                            className="button-class !h-11 !w-full">
+                            type="submit"
+                            className="button-class h-11! w-full!">
                             <img
                                 src="/assets/icons/google.svg"
                                 className="size-5"

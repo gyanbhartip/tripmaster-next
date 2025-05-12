@@ -1,12 +1,11 @@
 'use client';
 
+import { signOut } from '@/lib/appwrite/auth';
 import Image from 'next/image';
-import { redirect } from 'next/navigation';
 
 const LogoutButton = () => {
     const handleLogout = async () => {
-        // await logoutUser();
-        redirect('/sign-in');
+        await signOut();
     };
     return (
         <button
