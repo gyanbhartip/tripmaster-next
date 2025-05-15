@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     description: 'An AI powered trip planning application.',
 };
 
-registerLicense(process.env.NEXT_SYNCFUSION_LICENSE_KEY);
+registerLicense(process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE_KEY);
 
 export default function RootLayout({
     children,

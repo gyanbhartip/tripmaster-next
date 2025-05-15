@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
     serverExternalPackages: [
         '@syncfusion/ej2-react-charts',
         '@syncfusion/ej2-react-grids',
+        '@syncfusion/ej2-react-navigations',
     ],
     /* config options here */
     experimental: {

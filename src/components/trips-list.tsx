@@ -5,6 +5,15 @@ import { useState } from 'react';
 import Header from './header';
 import TripCard from './trip-card';
 import { PagerComponent } from '@syncfusion/ej2-react-grids';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from './ui/pagination';
 
 type Props = {
     total: number;
@@ -60,6 +69,22 @@ const TripsList = ({ total, trips }: Props) => {
                             ),
                         )}
                 </div>
+                <Pagination>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious href="#" />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">1</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationNext href="#" />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
                 <PagerComponent
                     totalRecordsCount={total}
                     pageSize={8}
