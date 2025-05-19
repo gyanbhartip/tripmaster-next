@@ -14,11 +14,7 @@ const nextConfig: NextConfig = {
         ignoreBuildErrors: false,
     },
     productionBrowserSourceMaps: true,
-    serverExternalPackages: [
-        '@syncfusion/ej2-react-charts',
-        '@syncfusion/ej2-react-grids',
-        '@syncfusion/ej2-react-navigations',
-    ],
+    serverExternalPackages: ['@syncfusion/ej2-react-charts'],
     /* config options here */
     experimental: {
         reactCompiler: false,

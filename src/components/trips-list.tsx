@@ -4,7 +4,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import Header from './header';
 import TripCard from './trip-card';
-import { PagerComponent } from '@syncfusion/ej2-react-grids';
+// import { PagerComponent } from '@syncfusion/ej2-react-grids';
 import {
     Pagination,
     PaginationContent,
@@ -85,13 +85,13 @@ const TripsList = ({ total, trips }: Props) => {
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>
-                <PagerComponent
+                {/* <PagerComponent
                     totalRecordsCount={total}
                     pageSize={8}
                     currentPage={currentPage}
                     click={args => handlePageChange(args.currentPage)}
                     cssClass="mb-4!"
-                />
+                /> */}
             </section>
         </main>
     );

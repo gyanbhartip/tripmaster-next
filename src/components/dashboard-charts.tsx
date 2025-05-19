@@ -18,18 +18,25 @@ import {
     SplineAreaSeries,
     Tooltip,
 } from '@syncfusion/ej2-react-charts';
-import {
-    ColumnDirective,
-    ColumnsDirective,
-    GridComponent,
-} from '@syncfusion/ej2-react-grids';
-import React from 'react';
+import { ChartContainer, type ChartConfig } from './ui/chart';
+import { Bar, BarChart } from 'recharts';
 
-const DashboardCharts = ({
-    tripsByTravelStyle,
-    userGrowth,
-    usersAndTrips,
-}: Props) => {
+type Props = {
+    tripsByTravelStyle: Array<{
+        count: number;
+        travelStyle: string;
+    }>;
+    userGrowth: Array<{
+        count: number;
+        day: string;
+    }>;
+};
+
+const DashboardCharts = ({ tripsByTravelStyle, userGrowth }: Props) => {
+    console.log(
+        '🚀 ~ DashboardCharts ~ tripsByTravelStyle:',
+        tripsByTravelStyle,
+    );
     return (
         <>
             <section className="grid grid-cols-1 gap-5 lg:grid-cols-2">
@@ -73,7 +80,7 @@ const DashboardCharts = ({
                         />
                     </SeriesCollectionDirective>
                 </ChartComponent>
-                <ChartComponent
+                {/* <ChartComponent
                     id="chart-2"
                     primaryXAxis={tripXAxis}
                     primaryYAxis={tripyAxis}
@@ -100,50 +107,18 @@ const DashboardCharts = ({
                             cornerRadius={{ topLeft: 10, topRight: 10 }}
                         />
                     </SeriesCollectionDirective>
-                </ChartComponent>
-            </section>
-            <section className="user-trip wrapper">
-                {usersAndTrips.map(
-                    ({ title, dataSource, field, headerText }, index) => (
-                        <div key={index} className="flex flex-col gap-5">
-                            <h3 className="p-20-semibold text-dark-100">
-                                {title}
-                            </h3>
-                            <GridComponent
-                                dataSource={dataSource}
-                                gridLines="None">
-                                <ColumnsDirective>
-                                    <ColumnDirective
-                                        field="name"
-                                        headerText="Name"
-                                        width={'200'}
-                                        textAlign="Left"
-                                        template={({
-                                            imageUrl,
-                                            name,
-                                        }: UserData) => (
-                                            <div className="flex items-center gap-1.5 px-4">
-                                                <img
-                                                    src={imageUrl}
-                                                    alt="user"
-                                                    className="aspect-square size-8 rounded-full"
-                                                    referrerPolicy="no-referrer"
-                                                />
-                                                <span>{name}</span>
-                                            </div>
-                                        )}
-                                    />
-                                    <ColumnDirective
-                                        field={field}
-                                        headerText={headerText}
-                                        width={'150'}
-                                        textAlign="Left"
-                                    />
-                                </ColumnsDirective>
-                            </GridComponent>
-                        </div>
-                    ),
-                )}
+                </ChartComponent> */}
+                <ChartContainer
+                    config={tripTrendsChartConfig}
+                    className="min-h-[200px] w-full">
+                    <BarChart data={tripsByTravelStyle}>
+                        <Bar
+                            dataKey={'travelStyle'}
+                            fill="var(--color-travelStyle)"
+                            radius={4}
+                        />
+                    </BarChart>
+                </ChartContainer>
             </section>
         </>
     );
@@ -151,31 +126,16 @@ const DashboardCharts = ({
 
 export default DashboardCharts;
 
-type Props = {
-    tripsByTravelStyle: Array<{
-        count: number;
-        travelStyle: string;
-    }>;
-    userGrowth: Array<{
-        count: number;
-        day: string;
-    }>;
-    usersAndTrips: (
-        | {
-              title: string;
-              dataSource: UsersItineraryCount[];
-              field: string;
-              headerText: string;
-          }
-        | {
-              title: string;
-              dataSource: {
-                  imageUrl: unknown;
-                  name: string | undefined;
-                  interests: string | undefined;
-              }[];
-              field: string;
-              headerText: string;
-          }
-    )[];
-};
+const userGrowthChartConfig = {
+    day: {
+        label: 'Day',
+        color: '#4784EE',
+    },
+} satisfies ChartConfig;
+
+const tripTrendsChartConfig = {
+    travelStyle: {
+        label: 'Travel Style',
+        color: '#4784EE',
+    },
+} satisfies ChartConfig;
