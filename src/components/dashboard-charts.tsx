@@ -1,25 +1,11 @@
 'use client';
-
+import { Bar, BarChart, CartesianGrid, Label, XAxis, YAxis } from 'recharts';
 import {
-    tripXAxis,
-    tripyAxis,
-    userXAxis,
-    useryAxis,
-} from '@/lib/constants/app-constants';
-import {
-    Category,
-    ChartComponent,
-    ColumnSeries,
-    DataLabel,
-    Inject,
-    Legend,
-    SeriesCollectionDirective,
-    SeriesDirective,
-    SplineAreaSeries,
-    Tooltip,
-} from '@syncfusion/ej2-react-charts';
-import { ChartContainer, type ChartConfig } from './ui/chart';
-import { Bar, BarChart } from 'recharts';
+    type ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+} from './ui/chart';
 
 type Props = {
     tripsByTravelStyle: Array<{
@@ -33,88 +19,107 @@ type Props = {
 };
 
 const DashboardCharts = ({ tripsByTravelStyle, userGrowth }: Props) => {
-    console.log(
-        '🚀 ~ DashboardCharts ~ tripsByTravelStyle:',
-        tripsByTravelStyle,
-    );
     return (
         <>
             <section className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-                <ChartComponent
-                    id="chart-1"
-                    primaryXAxis={userXAxis}
-                    primaryYAxis={useryAxis}
-                    title="User Growth"
-                    tooltip={{ enable: true }}>
-                    <Inject
-                        services={[
-                            ColumnSeries,
-                            SplineAreaSeries,
-                            Category,
-                            DataLabel,
-                            Tooltip,
-                            Legend,
-                        ]}
-                    />
-                    <SeriesCollectionDirective>
-                        <SeriesDirective
-                            dataSource={userGrowth}
-                            xName="day"
-                            yName="count"
-                            type="Column"
-                            name="Column"
-                            columnWidth={0.3}
-                            cornerRadius={{ topLeft: 10, topRight: 10 }}
-                        />
-                        <SeriesDirective
-                            dataSource={userGrowth}
-                            xName="day"
-                            yName="count"
-                            type="SplineArea"
-                            name="Wave"
-                            fill="rgba(71,132,238,0.3)"
-                            border={{
-                                width: 2,
-                                color: '#4784EE',
+                <ChartContainer
+                    config={userGrowthChartConfig}
+                    className="min-h-[200px] w-full">
+                    <BarChart data={userGrowth} accessibilityLayer={true}>
+                        <CartesianGrid stroke="#b5b5b5" />
+                        <XAxis
+                            axisLine={false}
+                            dataKey="day"
+                            label={{
+                                value: 'Day',
+                                position: 'insideBottom',
+                                offset: -2,
+                                style: {
+                                    fontSize: '14px',
+                                    fill: 'var(--color-text)',
+                                    fontWeight: 600,
+                                },
                             }}
+                            tickLine={false}
                         />
-                    </SeriesCollectionDirective>
-                </ChartComponent>
-                {/* <ChartComponent
-                    id="chart-2"
-                    primaryXAxis={tripXAxis}
-                    primaryYAxis={tripyAxis}
-                    title="Trip Trends"
-                    tooltip={{ enable: true }}>
-                    <Inject
-                        services={[
-                            ColumnSeries,
-                            SplineAreaSeries,
-                            Category,
-                            DataLabel,
-                            Tooltip,
-                            Legend,
-                        ]}
-                    />
-                    <SeriesCollectionDirective>
-                        <SeriesDirective
-                            dataSource={tripsByTravelStyle}
-                            xName="travelStyle"
-                            yName="count"
-                            type="Column"
-                            name="day"
-                            columnWidth={0.3}
-                            cornerRadius={{ topLeft: 10, topRight: 10 }}
+                        <YAxis
+                            allowDecimals={false}
+                            axisLine={false}
+                            dataKey="count"
+                            domain={[0, 10]}
+                            scale={'linear'}
+                            tickMargin={4}
+                            tickLine={false}>
+                            <Label
+                                angle={-90}
+                                style={{
+                                    fontSize: '14px',
+                                    fill: 'var(--color-text)',
+                                    fontWeight: 600,
+                                }}>
+                                Count
+                            </Label>
+                        </YAxis>
+                        <ChartTooltip
+                            cursor={false}
+                            content={<ChartTooltipContent indicator="dashed" />}
                         />
-                    </SeriesCollectionDirective>
-                </ChartComponent> */}
+                        <Bar
+                            dataKey={'count'}
+                            fill="var(--color-day)"
+                            maxBarSize={50}
+                            radius={4}
+                        />
+                    </BarChart>
+                </ChartContainer>
                 <ChartContainer
                     config={tripTrendsChartConfig}
                     className="min-h-[200px] w-full">
-                    <BarChart data={tripsByTravelStyle}>
+                    <BarChart
+                        data={tripsByTravelStyle}
+                        accessibilityLayer={true}>
+                        <CartesianGrid stroke="#b5b5b5" />
+                        <XAxis
+                            dataKey="travelStyle"
+                            axisLine={false}
+                            tickLine={false}>
+                            <Label
+                                offset={-2}
+                                position={'insideBottom'}
+                                style={{
+                                    fontSize: '14px',
+                                    fill: 'var(--color-text)',
+                                    fontWeight: 600,
+                                }}>
+                                Travel Styles
+                            </Label>
+                        </XAxis>
+                        <YAxis
+                            allowDecimals={false}
+                            axisLine={false}
+                            dataKey="count"
+                            domain={[0, 10]}
+                            label={{
+                                angle: -90,
+                                value: 'Count',
+                                style: {
+                                    fontSize: '14px',
+                                    fill: 'var(--color-text)',
+                                    fontWeight: 600,
+                                },
+                            }}
+                            scale={'linear'}
+                            tickLine={false}
+                            tickMargin={4}
+                        />
+                        <ChartTooltip
+                            cursor={false}
+                            content={<ChartTooltipContent indicator="dashed" />}
+                        />
                         <Bar
-                            dataKey={'travelStyle'}
+                            dataKey={'count'}
                             fill="var(--color-travelStyle)"
+                            maxBarSize={50}
                             radius={4}
                         />
                     </BarChart>

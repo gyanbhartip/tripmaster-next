@@ -50,21 +50,6 @@ const DashboardPage = async () => {
         interests,
     }));
 
-    const usersAndTrips = [
-        {
-            title: 'Latest user signups',
-            dataSource: mappedUsers,
-            field: 'count',
-            headerText: 'Trips Created',
-        },
-        {
-            title: 'Trips based on interests',
-            dataSource: _trips,
-            field: 'interests',
-            headerText: 'Interests',
-        },
-    ];
-
     const headersList = await headers();
     const rawUrl = headersList.get('x-next-url') || '/';
     const pathname = new URL(rawUrl, 'http://localhost').pathname;
@@ -131,7 +116,6 @@ const DashboardPage = async () => {
             <DashboardCharts
                 tripsByTravelStyle={tripsByTravelStyle}
                 userGrowth={userGrowth}
-                usersAndTrips={usersAndTrips}
             />
             <section className="user-trip wrapper">
                 {mappedUsers ? (

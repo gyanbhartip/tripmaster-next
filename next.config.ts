@@ -14,7 +14,6 @@ const nextConfig: NextConfig = {
         ignoreBuildErrors: false,
     },
     productionBrowserSourceMaps: true,
-    serverExternalPackages: ['@syncfusion/ej2-react-charts'],
     /* config options here */
     experimental: {
         reactCompiler: false,
