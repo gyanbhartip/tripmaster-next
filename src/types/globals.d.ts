@@ -13,6 +13,18 @@ declare interface UserData extends BaseUser {
 
 declare type User = BaseUser;
 
+declare type UserDocument = {
+    $id: string;
+    $collectionId: string;
+    $databaseId: string;
+    $createdAt: string;
+    $updatedAt: string;
+    $permissions: Array<string>;
+    status: 'user' | 'admin';
+    joinedAt: string;
+    accountId: string;
+} & Pick<User, 'name' | 'email' | 'imageUrl'>;
+
 declare interface Country {
     name: string;
     coordinates: [number, number];

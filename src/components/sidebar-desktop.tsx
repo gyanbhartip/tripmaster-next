@@ -3,7 +3,11 @@
 import NavItems from './nav-items';
 import { Sidebar } from './ui/sidebar';
 
-const DesktopSidebar = ({ user }) => {
+type Props = {
+    user: UserDocument;
+};
+
+const DesktopSidebar = ({ user }: Props) => {
     return (
         <Sidebar>
             <NavItems user={user} />

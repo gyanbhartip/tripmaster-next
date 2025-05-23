@@ -15,7 +15,7 @@ import {
 } from './ui/sidebar';
 
 type Props = {
-    user: unknown;
+    user: UserDocument;
     withSheetClose?: boolean;
 };
 

@@ -34,7 +34,7 @@ export const getUserAndTripStats = async (): Promise<DashboardStats> => {
             appwriteConfig.databaseId,
             appwriteConfig.tripCollectionId,
         ),
-        databases?.listDocuments(
+        databases?.listDocuments<UserDocument>(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
         ),
@@ -45,7 +45,7 @@ export const getUserAndTripStats = async (): Promise<DashboardStats> => {
             .length;
 
     const filterUsersByRole = (role: string) =>
-        users.documents.filter((u: Document) => u.status === role);
+        users.documents.filter((u: UserDocument) => u.status === role);
 
     return {
         totalUsers: users.total,

@@ -2,7 +2,6 @@ import DashboardCharts from '@/components/dashboard-charts';
 import Header from '@/components/header';
 import StatsCard from '@/components/stats-card';
 import TripCard from '@/components/trip-card';
-import DataTable from '@/components/ui/data-table';
 import { getCurrentUser } from '@/lib/actions/user';
 import { getAllUsers } from '@/lib/appwrite/auth';
 import {
@@ -12,7 +11,6 @@ import {
 } from '@/lib/appwrite/dashboard';
 import { getAllTrips } from '@/lib/appwrite/trips';
 import { parseTripData } from '@/utils/trip';
-import type { ColumnDef } from '@tanstack/react-table';
 import { headers } from 'next/headers';
 
 const DashboardPage = async () => {
@@ -114,63 +112,13 @@ const DashboardPage = async () => {
                 </div>
             </section>
             <DashboardCharts
+                mappedUsers={mappedUsers}
+                trips={_trips}
                 tripsByTravelStyle={tripsByTravelStyle}
                 userGrowth={userGrowth}
             />
-            <section className="user-trip wrapper">
-                {mappedUsers ? (
-                    <div className="flex flex-col gap-5">
-                        <h3 className="p-20-semibold text-dark-100">
-                            Latest user signups
-                        </h3>
-                        <DataTable
-                            data={mappedUsers}
-                            columns={userSignupColumns}
-                        />
-                    </div>
-                ) : null}
-                {_trips ? (
-                    <div className="flex flex-col gap-5">
-                        <h3 className="p-20-semibold text-dark-100">
-                            Trips based on interests
-                        </h3>
-                        <DataTable
-                            data={_trips}
-                            columns={tripInterestColumns}
-                        />
-                    </div>
-                ) : null}
-            </section>
         </main>
     );
 };
 
 export default DashboardPage;
-
-const userSignupColumns: Array<ColumnDef<UsersItineraryCount>> = [
-    {
-        accessorKey: 'name',
-        header: 'Name',
-    },
-    {
-        accessorKey: 'count',
-        header: 'Trips Created',
-    },
-];
-
-const tripInterestColumns: Array<
-    ColumnDef<{
-        imageUrl: unknown;
-        name: string | undefined;
-        interests: string | undefined;
-    }>
-> = [
-    {
-        accessorKey: 'name',
-        header: 'Name',
-    },
-    {
-        accessorKey: 'interests',
-        header: 'Interests',
-    },
-];

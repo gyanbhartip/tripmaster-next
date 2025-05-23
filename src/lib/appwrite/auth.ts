@@ -48,11 +48,12 @@ async function signOut() {
 const getExistingUserFromDB = async (id: string) => {
     try {
         const { databases } = await createSessionClient();
-        const { documents, total } = await databases.listDocuments(
-            appwriteConfig.databaseId,
-            appwriteConfig.userCollectionId,
-            [Query.equal('accountId', id)],
-        );
+        const { documents, total } =
+            await databases.listDocuments<UserDocument>(
+                appwriteConfig.databaseId,
+                appwriteConfig.userCollectionId,
+                [Query.equal('accountId', id)],
+            );
         return total > 0 ? documents[0] : null;
     } catch (error) {
         console.error('Error fetching user: ', error);

@@ -1,4 +1,5 @@
 'use client';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Bar, BarChart, CartesianGrid, Label, XAxis, YAxis } from 'recharts';
 import {
     type ChartConfig,
@@ -6,8 +7,15 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from './ui/chart';
+import DataTable from './ui/data-table';
 
 type Props = {
+    mappedUsers?: Array<UsersItineraryCount>;
+    trips?: Array<{
+        imageUrl: string;
+        name: string | undefined;
+        interests: string | undefined;
+    }>;
     tripsByTravelStyle: Array<{
         count: number;
         travelStyle: string;
@@ -18,7 +26,12 @@ type Props = {
     }>;
 };
 
-const DashboardCharts = ({ tripsByTravelStyle, userGrowth }: Props) => {
+const DashboardCharts = ({
+    mappedUsers,
+    trips,
+    tripsByTravelStyle,
+    userGrowth,
+}: Props) => {
     return (
         <>
             <section className="grid grid-cols-1 gap-5 lg:grid-cols-2">
@@ -125,6 +138,28 @@ const DashboardCharts = ({ tripsByTravelStyle, userGrowth }: Props) => {
                     </BarChart>
                 </ChartContainer>
             </section>
+
+            <section className="user-trip wrapper">
+                {mappedUsers ? (
+                    <div className="flex flex-col gap-5">
+                        <h3 className="p-20-semibold text-dark-100">
+                            Latest user signups
+                        </h3>
+                        <DataTable
+                            data={mappedUsers}
+                            columns={userSignupColumns}
+                        />
+                    </div>
+                ) : null}
+                {trips ? (
+                    <div className="flex flex-col gap-5">
+                        <h3 className="p-20-semibold text-dark-100">
+                            Trips based on interests
+                        </h3>
+                        <DataTable data={trips} columns={tripInterestColumns} />
+                    </div>
+                ) : null}
+            </section>
         </>
     );
 };
@@ -144,3 +179,63 @@ const tripTrendsChartConfig = {
         color: '#4784EE',
     },
 } satisfies ChartConfig;
+
+const userSignupColumns: Array<ColumnDef<UsersItineraryCount>> = [
+    {
+        accessorKey: 'name',
+        header: 'Name',
+        cell: ({
+            row: {
+                original: { imageUrl, name },
+            },
+        }) => {
+            return (
+                <div className="flex min-w-fit items-center gap-2">
+                    <img
+                        src={imageUrl}
+                        alt={name}
+                        className="h-8 w-8 rounded-full"
+                    />
+                    <span>{name}</span>
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: 'count',
+        header: 'Trips Created',
+    },
+];
+
+const tripInterestColumns: Array<
+    ColumnDef<{
+        imageUrl: string;
+        name: string | undefined;
+        interests: string | undefined;
+    }>
+> = [
+    {
+        accessorKey: 'name',
+        header: 'Name',
+        cell: ({
+            row: {
+                original: { imageUrl, name },
+            },
+        }) => {
+            return (
+                <div className="flex min-w-fit items-center gap-2">
+                    <img
+                        src={imageUrl}
+                        alt={name}
+                        className="h-8 w-8 rounded-full"
+                    />
+                    <span>{name}</span>
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: 'interests',
+        header: 'Interests',
+    },
+];

@@ -14,6 +14,7 @@ const compat = new FlatCompat({
 const eslintConfig = [
     ...compat.config({
         extends: ['eslint:recommended', 'next/typescript', 'prettier'],
+        ignorePatterns: ['world_map.ts'],
     }),
 ];
 

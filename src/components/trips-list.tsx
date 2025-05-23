@@ -1,7 +1,10 @@
 'use client';
 
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import {
+    usePathname,
+    //  useSearchParams
+} from 'next/navigation';
+// import { useState } from 'react';
 import Header from './header';
 import TripCard from './trip-card';
 // import { PagerComponent } from '@syncfusion/ej2-react-grids';
@@ -20,15 +23,18 @@ type Props = {
     trips: Array<Trip>;
 };
 
-const TripsList = ({ total, trips }: Props) => {
-    const searchParams = useSearchParams();
-    const initialPage = Number(searchParams.get('page') || '1');
-    const [currentPage, setCurrentPage] = useState(initialPage);
+const TripsList = ({
+    //  total,
+    trips,
+}: Props) => {
+    // const searchParams = useSearchParams();
+    // const initialPage = Number(searchParams.get('page') || '1');
+    // const [currentPage, setCurrentPage] = useState(initialPage);
 
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-        window.location.search = `?page=${page}`;
-    };
+    // const handlePageChange = (page: number) => {
+    //     setCurrentPage(page);
+    //     window.location.search = `?page=${page}`;
+    // };
 
     const pathName = usePathname();
     return (

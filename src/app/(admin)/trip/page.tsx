@@ -1,3 +1,5 @@
+'use client';
+
 import TripsList from '@/components/trips-list';
 import { getTrips } from '@/lib/actions/trip';
 import { Suspense } from 'react';
@@ -8,7 +10,7 @@ import { Suspense } from 'react';
 //     params: Awaited<{ page?: number | undefined; limit?: number | undefined }>;
 // };
 
-const TripsPage = async props => {
+const TripsPage = async () => {
     const { total, trips } = await getTrips(1, 8);
 
     return (
