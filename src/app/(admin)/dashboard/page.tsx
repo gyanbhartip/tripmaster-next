@@ -11,7 +11,6 @@ import {
 } from '@/lib/appwrite/dashboard';
 import { getAllTrips } from '@/lib/appwrite/trips';
 import { parseTripData } from '@/utils/trip';
-import { headers } from 'next/headers';
 
 const DashboardPage = async () => {
     const [
@@ -48,10 +47,6 @@ const DashboardPage = async () => {
         interests,
     }));
 
-    const headersList = await headers();
-    const rawUrl = headersList.get('x-next-url') || '/';
-    const pathname = new URL(rawUrl, 'http://localhost').pathname;
-
     const { totalTrips, tripsCreated, totalUsers, userRole, usersJoined } =
         dashboardStats;
     return (
@@ -59,7 +54,6 @@ const DashboardPage = async () => {
             <Header
                 title={`Welcome ${user?.name ?? 'Guest'}`}
                 description="Track activity, trends and popular destinations in real time"
-                pathName={pathname}
             />
             <section className="flex flex-col gap-6">
                 <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">

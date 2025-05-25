@@ -28,6 +28,10 @@ export const getAllTrips = async (limit: number, offset: number) => {
         };
     } catch (error) {
         console.error('error in getAllTrips: ', error);
+        return {
+            allTrips: [],
+            total: 0,
+        };
     }
 };
 

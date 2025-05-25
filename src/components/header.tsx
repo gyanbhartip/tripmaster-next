@@ -1,5 +1,8 @@
+'use client';
+
 import { cn } from '@/utils/misc';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Button } from './ui/button';
 
 type Props = {
@@ -7,17 +10,17 @@ type Props = {
     ctaUrl?: string;
     description: string;
     title: string;
-    pathName: string;
 };
 
-const Header = ({ ctaText, ctaUrl, title, description, pathName }: Props) => {
+const Header = ({ ctaText, ctaUrl, title, description }: Props) => {
+    const pathName = usePathname();
     return (
         <header className="header">
             <article>
                 <h1
                     className={cn(
                         'text-dark-100',
-                        pathName === '/'
+                        pathName === '/dashboard'
                             ? 'text-2xl font-bold md:text-4xl'
                             : 'text-xl font-semibold md:text-2xl',
                     )}>
@@ -26,7 +29,7 @@ const Header = ({ ctaText, ctaUrl, title, description, pathName }: Props) => {
                 <p
                     className={cn(
                         'font-normal text-gray-500',
-                        pathName === '/'
+                        pathName === '/dashboard'
                             ? 'text-base md:text-lg'
                             : 'text-sm md:text-lg',
                     )}>

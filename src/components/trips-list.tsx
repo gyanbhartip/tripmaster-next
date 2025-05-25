@@ -1,13 +1,10 @@
 'use client';
 
-import {
-    usePathname,
-    //  useSearchParams
-} from 'next/navigation';
-// import { useState } from 'react';
+import { getTrips } from '@/lib/actions/trip';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Header from './header';
 import TripCard from './trip-card';
-// import { PagerComponent } from '@syncfusion/ej2-react-grids';
 import {
     Pagination,
     PaginationContent,
@@ -18,25 +15,37 @@ import {
     PaginationPrevious,
 } from './ui/pagination';
 
-type Props = {
-    total: number;
-    trips: Array<Trip>;
-};
+const LIMIT = 8;
 
-const TripsList = ({
-    //  total,
-    trips,
-}: Props) => {
-    // const searchParams = useSearchParams();
-    // const initialPage = Number(searchParams.get('page') || '1');
-    // const [currentPage, setCurrentPage] = useState(initialPage);
+const TripsList = () => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const pageFromURL = Number(searchParams.get('page') || '1');
+    const [currentPage, setCurrentPage] = useState(pageFromURL);
 
-    // const handlePageChange = (page: number) => {
-    //     setCurrentPage(page);
-    //     window.location.search = `?page=${page}`;
-    // };
+    const [trips, setTrips] = useState<
+        Awaited<ReturnType<typeof getTrips>>['trips']
+    >([]);
+    const [total, setTotal] = useState(0);
 
-    const pathName = usePathname();
+    useEffect(() => {
+        const fetchTrips = async () => {
+            const { trips, total } = await getTrips(currentPage, LIMIT);
+            setTrips(trips);
+            setTotal(total);
+        };
+        fetchTrips();
+    }, [currentPage]);
+
+    const totalPages = Math.ceil(total / LIMIT);
+
+    const goToPage = (page: number) => {
+        setCurrentPage(page);
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('page', page.toString());
+        router.push(`?${params.toString()}`);
+    };
+
     return (
         <main className="all-users wrapper">
             <Header
@@ -44,7 +53,6 @@ const TripsList = ({
                 ctaUrl="/trips/create"
                 description="View and edit AI-generated travel plans"
                 title="Trips"
-                pathName={pathName}
             />
             <section>
                 <h1 className="p-24-semibold text-dark-100 mb-4">
@@ -78,26 +86,35 @@ const TripsList = ({
                 <Pagination>
                     <PaginationContent>
                         <PaginationItem>
-                            <PaginationPrevious href="#" />
+                            <PaginationPrevious
+                                href="#"
+                                onClick={() =>
+                                    currentPage > 1 && goToPage(currentPage - 1)
+                                }
+                            />
                         </PaginationItem>
+                        {Array.from({ length: totalPages }).map((_, idx) => (
+                            <PaginationItem key={idx}>
+                                <PaginationLink
+                                    href="#"
+                                    isActive={currentPage === idx + 1}
+                                    onClick={() => goToPage(idx + 1)}>
+                                    {idx + 1}
+                                </PaginationLink>
+                            </PaginationItem>
+                        ))}
+                        {totalPages > 5 && <PaginationEllipsis />}
                         <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
+                            <PaginationNext
+                                href="#"
+                                onClick={() =>
+                                    currentPage < totalPages &&
+                                    goToPage(currentPage + 1)
+                                }
+                            />
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>
-                {/* <PagerComponent
-                    totalRecordsCount={total}
-                    pageSize={8}
-                    currentPage={currentPage}
-                    click={args => handlePageChange(args.currentPage)}
-                    cssClass="mb-4!"
-                /> */}
             </section>
         </main>
     );
