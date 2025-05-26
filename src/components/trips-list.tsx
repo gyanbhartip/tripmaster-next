@@ -50,7 +50,7 @@ const TripsList = () => {
         <main className="all-users wrapper">
             <Header
                 ctaText="Create a trip"
-                ctaUrl="/trips/create"
+                ctaUrl="/trip/create"
                 description="View and edit AI-generated travel plans"
                 title="Trips"
             />
