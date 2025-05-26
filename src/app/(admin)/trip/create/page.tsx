@@ -2,10 +2,15 @@
 
 import Header from '@/components/header';
 import { Button } from '@/components/ui/button';
+import { Combobox } from '@/components/ui/combo-box';
 import { createSessionClient } from '@/lib/appwrite/client';
+import { comboBoxItems, selectItems } from '@/lib/constants/app-constants';
+import { world_map } from '@/lib/constants/world_map';
 import { cn } from '@/utils/misc';
+import { formatKey } from '@/utils/trip';
 import { redirect } from 'next/navigation';
 import { type FormEvent, useEffect, useState } from 'react';
+import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 
 const CreateTripPage = () => {
     const [countries, setCountries] = useState<Array<Country>>([]);
@@ -43,16 +48,6 @@ const CreateTripPage = () => {
         label: country.name,
         value: country.value,
     }));
-
-    const mapData = [
-        {
-            country: formData.country,
-            color: '#EA382E',
-            coordinate: countries.find(
-                (c: Country) => c.name === formData.country,
-            )?.coordinates,
-        },
-    ];
 
     const handleChange = (key: keyof TripFormData, value: string | number) => {
         setFormData(_prev => ({
@@ -130,34 +125,17 @@ const CreateTripPage = () => {
                 <form className="trip-form" onSubmit={handleSubmit}>
                     <div className="">
                         <label htmlFor="country">Country</label>
-                        {/* <ComboBoxComponent
-                        id={'country'}
-                        dataSource={countryData}
-                        fields={{ text: 'text', value: 'value' }}
-                        placeholder="Select a Country"
-                        className="combo-box"
-                        change={(e: { value: string | undefined }) => {
-                            if (e.value) {
-                                handleChange('country', e.value);
-                            }
-                        }}
-                        allowFiltering={true}
-                        filtering={(e: FilteringEventArgs) => {
-                            const query = e.text.toLowerCase();
-                            e.updateData(
-                                countries
-                                    .filter(country =>
-                                        country.name
-                                            .toLowerCase()
-                                            .includes(query),
-                                    )
-                                    .map(country => ({
-                                        text: country.name,
-                                        value: country.value,
-                                    })),
-                            );
-                        }}
-                    /> */}
+                        <Combobox
+                            data={countryData}
+                            emptyText="No countries found."
+                            onSelect={value => {
+                                if (value) {
+                                    handleChange('country', value);
+                                }
+                            }}
+                            placeholder="Select a Country"
+                            value={formData.country}
+                        />
                     </div>
                     <div className="">
                         <label htmlFor="duration">Duration</label>
@@ -167,65 +145,59 @@ const CreateTripPage = () => {
                             name="duration"
                             placeholder="Enter number of days"
                             className="form-input placeholder:text-gray-100"
+                            min={1}
                             onChange={e =>
                                 handleChange('duration', Number(e.target.value))
                             }
                         />
                     </div>
-                    {/* {selectItems.map(item => (
+                    {selectItems.map(item => (
                         <div key={item}>
                             <label htmlFor={item}>{formatKey(item)}</label>
-                            <ComboBoxComponent
-                                id={item}
-                                dataSource={comboBoxItems[item].map(_item => ({
-                                    text: _item,
+                            <Combobox
+                                data={comboBoxItems[item].map(_item => ({
+                                    label: _item,
                                     value: _item,
                                 }))}
-                                fields={{ text: 'text', value: 'value' }}
-                                placeholder={`Select ${formatKey(item)}`}
-                                className="combo-box"
-                                change={(e: { value: string | undefined }) => {
-                                    if (e.value) {
-                                        handleChange(item, e.value);
+                                emptyText="No countries found."
+                                onSelect={value => {
+                                    if (value) {
+                                        handleChange(item, value);
                                     }
                                 }}
-                                allowFiltering={true}
-                                filtering={(e: FilteringEventArgs) => {
-                                    const query = e.text.toLowerCase();
-                                    e.updateData(
-                                        comboBoxItems[item]
-                                            .filter(_item =>
-                                                _item
-                                                    .toLowerCase()
-                                                    .includes(query),
-                                            )
-                                            .map(_item => ({
-                                                text: _item,
-                                                value: _item,
-                                            })),
-                                    );
-                                }}
+                                placeholder={`Select ${formatKey(item)}`}
+                                value={formData?.[item].toString()}
                             />
                         </div>
-                    ))} */}
+                    ))}
                     <div className="">
-                        <label htmlFor="location">
+                        <span className="text-gray-500">
                             Location on the world map
-                        </label>
-                        {/* <MapsComponent>
-                            <LayersDirective>
-                                <LayerDirective
-                                    dataSource={mapData}
-                                    shapeData={world_map}
-                                    shapePropertyPath="name"
-                                    shapeDataPath="country"
-                                    shapeSettings={{
-                                        colorValuePath: 'color',
-                                        fill: '#E5E5E5',
-                                    }}
-                                />
-                            </LayersDirective>
-                        </MapsComponent> */}
+                        </span>
+                        <ComposableMap
+                            projection={'geoMercator'}
+                            className=""
+                            id="location">
+                            <Geographies geography={world_map}>
+                                {({ geographies }) =>
+                                    geographies.map(geo => {
+                                        return (
+                                            <Geography
+                                                key={geo.rsmKey}
+                                                geography={geo}
+                                                fill={
+                                                    geo.properties.name ===
+                                                    formData.country
+                                                        ? '#EA382E'
+                                                        : '#E5E5E5'
+                                                }
+                                                stroke="#FFFFFF"
+                                            />
+                                        );
+                                    })
+                                }
+                            </Geographies>
+                        </ComposableMap>
                     </div>
                     <div className="h-px w-full bg-gray-200" />
                     {error ? (

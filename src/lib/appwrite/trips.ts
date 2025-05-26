@@ -1,7 +1,12 @@
 'use server';
 
 import { Query } from 'node-appwrite';
-import { appwriteConfig, createSessionClient } from './client';
+import { createSessionClient } from './client';
+
+const appwriteConfig = {
+    databaseId: process.env.NEXT_APPWRITE_DATABASE_ID ?? '',
+    tripCollectionId: process.env.NEXT_APPWRITE_TRIPS_COLLECTION_ID ?? '',
+};
 
 export const getAllTrips = async (limit: number, offset: number) => {
     try {

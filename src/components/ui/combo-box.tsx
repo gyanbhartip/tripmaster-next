@@ -18,40 +18,25 @@ import { cn } from '@/utils/misc';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { useState } from 'react';
 
-const frameworks = [
-    {
-        value: 'next.js',
-        label: 'Next.js',
-    },
-    {
-        value: 'sveltekit',
-        label: 'SvelteKit',
-    },
-    {
-        value: 'nuxt.js',
-        label: 'Nuxt.js',
-    },
-    {
-        value: 'remix',
-        label: 'Remix',
-    },
-    {
-        value: 'astro',
-        label: 'Astro',
-    },
-];
-
 type Props = {
     data: Array<{
         label: string;
         value: string;
     }>;
+    emptyText?: string;
+    onSelect?: (value: string) => void;
+    placeholder?: string;
+    value?: string;
 };
 
-export function ComboboxDemo({ data }: Props) {
-    console.log('🚀 ~ ComboboxDemo ~ data:', data);
+const Combobox = ({
+    data,
+    emptyText,
+    onSelect,
+    placeholder,
+    value = '',
+}: Props) => {
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState('');
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -60,42 +45,41 @@ export function ComboboxDemo({ data }: Props) {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between">
+                    className="justify-between py-[26px]">
                     {value
-                        ? frameworks.find(
-                              framework => framework.value === value,
-                          )?.label
-                        : 'Select framework...'}
+                        ? data.find(framework => framework.value === value)
+                              ?.label
+                        : placeholder || 'Select value...'}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
+            <PopoverContent className="p-0">
                 <Command>
-                    <CommandInput placeholder="Search framework..." />
+                    <CommandInput
+                        placeholder={placeholder || 'Select value...'}
+                    />
                     <CommandList>
-                        <CommandEmpty>No framework found.</CommandEmpty>
+                        <CommandEmpty>
+                            {emptyText || 'No data found.'}
+                        </CommandEmpty>
                         <CommandGroup>
-                            {frameworks.map(framework => (
+                            {data.map(_listItem => (
                                 <CommandItem
-                                    key={framework.value}
-                                    value={framework.value}
+                                    key={_listItem.value}
+                                    value={_listItem.value}
                                     onSelect={currentValue => {
-                                        setValue(
-                                            currentValue === value
-                                                ? ''
-                                                : currentValue,
-                                        );
+                                        onSelect?.(currentValue);
                                         setOpen(false);
                                     }}>
                                     <Check
                                         className={cn(
                                             'mr-2 h-4 w-4',
-                                            value === framework.value
+                                            value === _listItem.value
                                                 ? 'opacity-100'
                                                 : 'opacity-0',
                                         )}
                                     />
-                                    {framework.label}
+                                    {_listItem.label}
                                 </CommandItem>
                             ))}
                         </CommandGroup>
@@ -104,4 +88,5 @@ export function ComboboxDemo({ data }: Props) {
             </PopoverContent>
         </Popover>
     );
-}
+};
+export { Combobox };

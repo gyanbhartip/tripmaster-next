@@ -1,3 +1,5 @@
+'use server';
+
 import { cookies } from 'next/headers';
 import { Account, Client, Databases } from 'node-appwrite';
 
@@ -5,13 +7,9 @@ const appwriteConfig = {
     endpointUrl: process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT ?? '',
     projectId: process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID ?? '',
     apiKey: process.env.NEXT_APPWRITE_KEY ?? '',
-    databaseId: process.env.NEXT_APPWRITE_DATABASE_ID ?? '',
-    userCollectionId: process.env.NEXT_APPWRITE_USERS_COLLECTION_ID ?? '',
-    tripCollectionId: process.env.NEXT_APPWRITE_TRIPS_COLLECTION_ID ?? '',
 };
 
 const createAdminClient = async () => {
-    'use server';
     const client = new Client()
 
         .setEndpoint(appwriteConfig.endpointUrl)
@@ -29,7 +27,6 @@ const createAdminClient = async () => {
 };
 
 const createSessionClient = async () => {
-    'use server';
     const client = new Client()
         .setEndpoint(appwriteConfig.endpointUrl)
         .setProject(appwriteConfig.projectId);
@@ -56,4 +53,4 @@ const createSessionClient = async () => {
     };
 };
 
-export { appwriteConfig, createAdminClient, createSessionClient };
+export { createAdminClient, createSessionClient };

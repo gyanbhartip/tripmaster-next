@@ -1,7 +1,13 @@
 'use server';
 
 import { parseTripData } from '@/utils/trip';
-import { appwriteConfig, createSessionClient } from './client';
+import { createSessionClient } from './client';
+
+const appwriteConfig = {
+    databaseId: process.env.NEXT_APPWRITE_DATABASE_ID ?? '',
+    userCollectionId: process.env.NEXT_APPWRITE_USERS_COLLECTION_ID ?? '',
+    tripCollectionId: process.env.NEXT_APPWRITE_TRIPS_COLLECTION_ID ?? '',
+};
 
 type Document = {
     [key: string]: unknown;

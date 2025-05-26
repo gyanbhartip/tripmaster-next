@@ -4,11 +4,12 @@ import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { ID, OAuthProvider, Query } from 'node-appwrite';
 import { getGooglePicture } from '../actions/user';
-import {
-    appwriteConfig,
-    createAdminClient,
-    createSessionClient,
-} from './client';
+import { createAdminClient, createSessionClient } from './client';
+
+const appwriteConfig = {
+    databaseId: process.env.NEXT_APPWRITE_DATABASE_ID ?? '',
+    userCollectionId: process.env.NEXT_APPWRITE_USERS_COLLECTION_ID ?? '',
+};
 
 async function getLoggedInUserFromSessionClient() {
     try {
